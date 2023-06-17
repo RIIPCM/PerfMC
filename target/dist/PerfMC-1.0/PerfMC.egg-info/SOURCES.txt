@@ -1,0 +1,9 @@
+PerfMC.py
+setup.py
+PerfMC.egg-info/PKG-INFO
+PerfMC.egg-info/SOURCES.txt
+PerfMC.egg-info/dependency_links.txt
+PerfMC.egg-info/namespace_packages.txt
+PerfMC.egg-info/top_level.txt
+PerfMC.egg-info/zip-safe
+scripts/init.py
