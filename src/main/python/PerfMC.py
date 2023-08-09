@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-v1.0
-@authors: Bartosz Kowal, Krzysztof Smalara: RZESZOW UNIVERSITY OF TECHNOLOGY, Poland
+v1.1
+@authors: Bartosz Kowal, Krzysztof Smalara: Rzeszow University of Technology, Poland
 Jiří Mazurek: Silesian University in Opava, Czech Republic  
+@contact: Krzysztof Smalara
 """
 #####
 #to floats
@@ -20,7 +21,11 @@ import csv
 import random  
 #####
 
+class MatrixIndexError(Exception):
+    pass
+
 def generator_matrices_n3(a12=None, a13=None, a23=None):
+    vector_list = []
     if a12 is None:
         a12_values = [1,2,3,4,5,6,7,8,9,1/2,1/3,1/4,1/5,1/6,1/7,1/8,1/9]
     else:
@@ -50,11 +55,19 @@ def generator_matrices_n3(a12=None, a13=None, a23=None):
                 KI=Koczkodaj_index_list(row)
 
                 vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
+                vector_list.append(vectors)
+
 
                 perms_calculated_table = permutations_for(vectors,KI)
                 perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
     
 
+
+    matrix_vectors = np.array(vector_list)
+    max_values = np.max(matrix_vectors, axis=0)
+    min_values = np.min(matrix_vectors, axis=0)
+    avg_values = np.mean(matrix_vectors, axis=0) 
+        
     total = sum(perm_index_table)
 
 
@@ -64,9 +77,18 @@ def generator_matrices_n3(a12=None, a13=None, a23=None):
         
     for percentage, permutation in zip(percentages, permutations_list):
         print(permutation, f'{percentage:.8f}%')
+        
+    letters = ['A', 'B', 'C']
+    
+    for i, (max_val, min_val, avg_values) in enumerate(zip(max_values, min_values, avg_values)):
+        print(f"Vector {letters[i]}:")
+        print(f"  Max: {max_val}")
+        print(f"  Min: {min_val}")
+        print(f"  Avg: {avg_values}\n")
                 
                 
 def generator_matrices_n4(a12=None, a13=None, a14=None, a23=None , a24=None, a34=None):
+    vector_list = []
     if a12 is None:
         a12_values = [1,2,3,4,5,6,7,8,9,1/2,1/3,1/4,1/5,1/6,1/7,1/8,1/9]
     else:
@@ -118,6 +140,7 @@ def generator_matrices_n4(a12=None, a13=None, a14=None, a23=None , a24=None, a34
                             KI=Koczkodaj_index_list(row)
 
                             vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
+                            vector_list.append(vectors)
 
                             
                             perms_calculated_table = permutations_for(vectors,KI)
@@ -125,7 +148,11 @@ def generator_matrices_n4(a12=None, a13=None, a14=None, a23=None , a24=None, a34
 
                             
         
-
+    matrix_vectors = np.array(vector_list)
+    max_values = np.max(matrix_vectors, axis=0)
+    min_values = np.min(matrix_vectors, axis=0)
+    avg_values = np.mean(matrix_vectors, axis=0) 
+    
     total = sum(perm_index_table)
 
     percentages = [(num / total) * 100 for num in perm_index_table]
@@ -135,6 +162,17 @@ def generator_matrices_n4(a12=None, a13=None, a14=None, a23=None , a24=None, a34
     
     for percentage, permutation in zip(percentages, permutations_list):
         print(permutation, f'{percentage:.8f}%')
+    
+    letters = ['A', 'B', 'C', 'D']
+    
+    for i, (max_val, min_val, avg_values) in enumerate(zip(max_values, min_values, avg_values)):
+        print(f"Vector {letters[i]}:")
+        print(f"  Max: {max_val}")
+        print(f"  Min: {min_val}")
+        print(f"  Avg: {avg_values}\n")
+
+    
+    
 
 
 
@@ -8534,6 +8572,7 @@ def output_for_n4(filePath=None):
 
 
 def output_for_n5(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=None,a23=None,a24=None,a25=None,a34=None,a35=None,a45=None):
+    vector_list = []
     perm_index_table=[0]*120
     counter_for_indices=0
     if filePath is None:
@@ -8554,7 +8593,10 @@ def output_for_n5(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                 KI=Koczkodaj_index_list(row)
 
                 vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
-
+                
+                #print(vectors)
+                             
+                vector_list.append(vectors)
                 
                 perms_calculated_table = permutations_for(vectors,KI)
                 perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
@@ -8573,14 +8615,24 @@ def output_for_n5(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
             
             permutations_list = list(permutations(['A','B','C','D','E']))
             
-            for percentage, permutation in zip(percentages, permutations_list):
-                if percentage>0:
-                    print(permutation, f'{percentage:.8f}%')
+            # for percentage, permutation in zip(percentages, permutations_list):
+            #     if percentage>0:
+            #         print(permutation, f'{percentage:.8f}%')
+            
+        
+            matrix_vectors = np.array(vector_list)
+            max_values = np.max(matrix_vectors, axis=0)
+            min_values = np.min(matrix_vectors, axis=0)
+            avg_values = np.mean(matrix_vectors, axis=0)               
+            
+
                     
         else:
-            print("No matrices with given indice(s)")    
-        
-        return 0
+            print("No matrices with given indice(s)")
+            raise MatrixIndexError("No matrices with given indice(s)")
+     
+        return (percentages, permutations_list,min_values,max_values,avg_values)
+    
     else:
             with open(filePath, newline='') as file:
                 reader = csv.reader(file, delimiter=';')
@@ -8602,8 +8654,11 @@ def output_for_n5(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                         KI=Koczkodaj_index_list(row)
 
                         vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
-
                         
+                        #print(vectors)
+                        
+                        vector_list.append(vectors)
+           
                         perms_calculated_table = permutations_for(vectors,KI)
                         perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
                         
@@ -8620,18 +8675,26 @@ def output_for_n5(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                     
                     permutations_list = list(permutations(['A','B','C','D','E']))
 
-                    for percentage, permutation in zip(percentages, permutations_list):
-                        if percentage>0:
-                            print(permutation, f'{percentage:.8f}%')
+                    # for percentage, permutation in zip(percentages, permutations_list):
+                    #     if percentage>0:
+                    #         print(permutation, f'{percentage:.8f}%')
+                    
+                    matrix_vectors = np.array(vector_list)
+                    max_values = np.max(matrix_vectors, axis=0)
+                    min_values = np.min(matrix_vectors, axis=0)
+                    avg_values = np.mean(matrix_vectors, axis=0) 
+                            
                             
                 else:
-                    print("No matrices with given indice(s)")    
+                    print("No matrices with given indice(s)")
+                    raise MatrixIndexError("No matrices with given indice(s)")
                 
-                return 0
+                return (percentages, permutations_list,min_values,max_values,avg_values)
 
 
 def output_for_n6(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=None,a16=None,a23=None,a24=None,a25=None,a26=None,a34=None,a35=None,a36=None,a45=None,a46=None,a56=None):
 
+    vector_list = []
     perm_index_table=[0]*720
 
     counter_for_indices=0
@@ -8658,6 +8721,10 @@ def output_for_n6(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                 KI=Koczkodaj_index_list(row)
 
                 vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
+                
+                # print(vectors)
+                
+                vector_list.append(vectors)
 
                 
                 perms_calculated_table = permutations_for(vectors,KI)
@@ -8675,14 +8742,21 @@ def output_for_n6(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
             
             
             permutations_list = list(permutations(['A','B','C','D','E','F']))
+            
+            matrix_vectors = np.array(vector_list)
+            max_values = np.max(matrix_vectors, axis=0)
+            min_values = np.min(matrix_vectors, axis=0)
+            avg_values = np.mean(matrix_vectors, axis=0) 
 
-            for percentage, permutation in zip(percentages, permutations_list):
-                if percentage>0:
-                    print(permutation, f'{percentage:.8f}%')
+            # for percentage, permutation in zip(percentages, permutations_list):
+            #     if percentage>0:
+            #         print(permutation, f'{percentage:.8f}%')
                     
         else:
-            print("No matrices with given indice(s)")    
-        return 0
+            print("No matrices with given indice(s)")
+            raise MatrixIndexError("No matrices with given indice(s)")
+            
+        return (percentages, permutations_list,min_values,max_values,avg_values)
     
     else:
             with open(filePath, newline='') as file:
@@ -8709,6 +8783,10 @@ def output_for_n6(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                         KI=Koczkodaj_index_list(row)
 
                         vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
+                        
+                        # print(vectors)
+                        
+                        vector_list.append(vectors)
 
                         
                         perms_calculated_table = permutations_for(vectors,KI)
@@ -8725,17 +8803,25 @@ def output_for_n6(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                     
                     
                     permutations_list = list(permutations(['A','B','C','D','E','F']))
+                    
+                    matrix_vectors = np.array(vector_list)
+                    max_values = np.max(matrix_vectors, axis=0)
+                    min_values = np.min(matrix_vectors, axis=0)
+                    avg_values = np.mean(matrix_vectors, axis=0) 
 
-                    for percentage, permutation in zip(percentages, permutations_list):
-                        if percentage>0:
-                            print(permutation, f'{percentage:.8f}%')
+                    # for percentage, permutation in zip(percentages, permutations_list):
+                    #     if percentage>0:
+                    #         print(permutation, f'{percentage:.8f}%')
                             
                 else:
-                    print("No matrices with given indice(s)")    
-                return 0                   
+                    print("No matrices with given indice(s)")   
+                    raise MatrixIndexError("No matrices with given indice(s)")
+                    
+                return (percentages, permutations_list,min_values,max_values,avg_values)                   
 
 
 def output_for_n7(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=None,a16=None,a17=None,a23=None,a24=None,a25=None,a26=None,a27=None,a34=None,a35=None,a36=None,a37=None,a45=None,a46=None,a47=None,a56=None,a57=None,a67=None):
+    vector_list = []
     perm_index_table=[0]*5040
 
     counter_for_indices=0
@@ -8763,6 +8849,10 @@ def output_for_n7(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
 
                 vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
                 
+                # print(vectors)
+                
+                vector_list.append(vectors)
+                
                 perms_calculated_table = permutations_for(vectors,KI)
                 perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
                 
@@ -8777,14 +8867,21 @@ def output_for_n7(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
             
             
             permutations_list = list(permutations(['A','B','C','D','E','F','G']))
+            
+            matrix_vectors = np.array(vector_list)
+            max_values = np.max(matrix_vectors, axis=0)
+            min_values = np.min(matrix_vectors, axis=0)
+            avg_values = np.mean(matrix_vectors, axis=0)
 
-            for percentage, permutation in zip(percentages, permutations_list):
-                if percentage>0:
-                    print(permutation, f'{percentage:.8f}%')
+            # for percentage, permutation in zip(percentages, permutations_list):
+            #     if percentage>0:
+            #         print(permutation, f'{percentage:.8f}%')
                     
         else:
-            print("No matrices with given indice(s)")    
-        return 0
+            print("No matrices with given indice(s)")
+            raise MatrixIndexError("No matrices with given indice(s)")
+            
+        return (percentages, permutations_list,min_values,max_values,avg_values)
     
     else:
             with open(filePath, newline='') as file:
@@ -8814,6 +8911,10 @@ def output_for_n7(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                         vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
                         #print(vectors)
                         
+                        # print(vectors)
+                        
+                        vector_list.append(vectors)
+                        
                         perms_calculated_table = permutations_for(vectors,KI)
                         perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
                         
@@ -8827,16 +8928,27 @@ def output_for_n7(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                     
                     
                     permutations_list = list(permutations(['A','B','C','D','E','F','G']))
-                    for percentage, permutation in zip(percentages, permutations_list):
-                        if percentage>0:
-                            print(permutation, f'{percentage:.8f}%')
+                    
+                    matrix_vectors = np.array(vector_list)
+                    max_values = np.max(matrix_vectors, axis=0)
+                    min_values = np.min(matrix_vectors, axis=0)
+                    avg_values = np.mean(matrix_vectors, axis=0)
+                    
+                    
+                    # for percentage, permutation in zip(percentages, permutations_list):
+                    #     if percentage>0:
+                    #         print(permutation, f'{percentage:.8f}%')
                             
                 else:
-                    print("No matrices with given indice(s)")    
-                return 0
+                    print("No matrices with given indice(s)")
+                    raise MatrixIndexError("No matrices with given indice(s)")
+                    
+                return (percentages, permutations_list,min_values,max_values,avg_values)
         
 
 def output_for_n8(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=None,a16=None,a17=None,a18=None,a23=None,a24=None,a25=None,a26=None,a27=None,a28=None,a34=None,a35=None,a36=None,a37=None,a38=None,a45=None,a46=None,a47=None,a48=None,a56=None,a57=None,a58=None,a67=None,a68=None,a78=None):
+    
+    vector_list = []
     perm_index_table=[0]*40320
 	
     counter_for_indices=0
@@ -8864,6 +8976,9 @@ def output_for_n8(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                 KI=Koczkodaj_index_list(row)
 
                 vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
+                
+                #print(vectors)
+                vector_list.append(vectors)
 
                 
                 perms_calculated_table = permutations_for(vectors,KI)
@@ -8880,15 +8995,21 @@ def output_for_n8(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
             percentages = [(num / total) * 100 for num in perm_index_table]
             
             permutations_list = list(permutations(['A','B','C','D','E','F','G','H']))
+            
+            matrix_vectors = np.array(vector_list)
+            max_values = np.max(matrix_vectors, axis=0)
+            min_values = np.min(matrix_vectors, axis=0)
+            avg_values = np.mean(matrix_vectors, axis=0)
 
-            for percentage, permutation in zip(percentages, permutations_list):
-                if percentage>0:
-                    print(permutation, f'{percentage:.8f}%')
+            # for percentage, permutation in zip(percentages, permutations_list):
+            #     if percentage>0:
+            #         print(permutation, f'{percentage:.8f}%')
                     
         else:
             print("No matrices with given indice(s)")
+            raise MatrixIndexError("No matrices with given indice(s)")
         
-        return 0
+        return (percentages, permutations_list,min_values,max_values,avg_values)
     
     else:
             with open(filePath, newline='') as file:
@@ -8917,6 +9038,9 @@ def output_for_n8(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                         KI=Koczkodaj_index_list(row)
 
                         vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
+                        
+                        # print(vectors)
+                        vector_list.append(vectors)
 
                         
                         perms_calculated_table = permutations_for(vectors,KI)
@@ -8932,18 +9056,28 @@ def output_for_n8(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                     percentages = [(num / total) * 100 for num in perm_index_table]
                     
                     permutations_list = list(permutations(['A','B','C','D','E','F','G','H']))
+                    
+                    
+                    matrix_vectors = np.array(vector_list)
+                    max_values = np.max(matrix_vectors, axis=0)
+                    min_values = np.min(matrix_vectors, axis=0)
+                    avg_values = np.mean(matrix_vectors, axis=0)
 
-                    for percentage, permutation in zip(percentages, permutations_list):
-                        if percentage>0:
-                            print(permutation, f'{percentage:.8f}%')
+                    # for percentage, permutation in zip(percentages, permutations_list):
+                    #     if percentage>0:
+                    #         print(permutation, f'{percentage:.8f}%')
                             
                 else:
                     print("No matrices with given indice(s)")
+                    raise MatrixIndexError("No matrices with given indice(s)")
                 
-                return 0
+                return (percentages, permutations_list,min_values,max_values,avg_values)
 
 
 def output_for_n9(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=None,a16=None,a17=None,a18=None,a19=None,a23=None,a24=None,a25=None,a26=None,a27=None,a28=None,a29=None,a34=None,a35=None,a36=None,a37=None,a38=None,a39=None,a45=None,a46=None,a47=None,a48=None,a49=None,a56=None,a57=None,a58=None,a59=None,a67=None,a68=None,a69=None,a78=None,a79=None,a89=None):
+    
+    vector_list = []
+    
     perm_index_table=[0]*362880
 
     counter_for_indices=0
@@ -8974,6 +9108,10 @@ def output_for_n9(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
 
                 vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
                 
+                # print(vectors)
+                
+                vector_list.append(vectors)
+                
                 perms_calculated_table = permutations_for(vectors,KI)
                 perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
                 
@@ -8986,13 +9124,23 @@ def output_for_n9(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
             percentages = [(num / total) * 100 for num in perm_index_table]
                    
             permutations_list = list(permutations(['A','B','C','D','E','F','G','H','I']))
-            for percentage, permutation in zip(percentages, permutations_list):
-                if percentage>0:
-                    print(permutation, f'{percentage:.8f}%')
+            
+            
+            matrix_vectors = np.array(vector_list)
+            max_values = np.max(matrix_vectors, axis=0)
+            min_values = np.min(matrix_vectors, axis=0)
+            avg_values = np.mean(matrix_vectors, axis=0) 
+            
+            
+            # for percentage, permutation in zip(percentages, permutations_list):
+            #     if percentage>0:
+            #         print(permutation, f'{percentage:.8f}%')
                     
         else:
             print("No matrices with given indice(s)") 
-            return 0
+            raise MatrixIndexError("No matrices with given indice(s)")
+            
+        return (percentages, permutations_list,min_values,max_values,avg_values)
         
     else:
             with open(filePath, newline='') as file:
@@ -9022,6 +9170,10 @@ def output_for_n9(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
 
                         vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
                         
+                        # print(vectors)
+                        
+                        vector_list.append(vectors)
+                        
                         perms_calculated_table = permutations_for(vectors,KI)
                         perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
                         
@@ -9034,17 +9186,26 @@ def output_for_n9(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=N
                     percentages = [(num / total) * 100 for num in perm_index_table]
                                     
                     permutations_list = list(permutations(['A','B','C','D','E','F','G','H','I']))
-                    for percentage, permutation in zip(percentages, permutations_list):
-                        if percentage>0:
-                            print(permutation, f'{percentage:.8f}%')
+                    
+                    matrix_vectors = np.array(vector_list)
+                    max_values = np.max(matrix_vectors, axis=0)
+                    min_values = np.min(matrix_vectors, axis=0)
+                    avg_values = np.mean(matrix_vectors, axis=0) 
+                    
+                    # for percentage, permutation in zip(percentages, permutations_list):
+                    #     if percentage>0:
+                    #         print(permutation, f'{percentage:.8f}%')
                             
                 else:
                     print("No matrices with given indice(s)") 
-                    return 0      
+                    raise MatrixIndexError("No matrices with given indice(s)")
+                    
+                return (percentages, permutations_list,min_values,max_values,avg_values)      
     
         
 def output_for_n10(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=None,a16=None,a17=None,a18=None,a19=None,a1A=None,a23=None,a24=None,a25=None,a26=None,a27=None,a28=None,a29=None,a2A=None,a34=None,a35=None,a36=None,a37=None,a38=None,a39=None,a3A=None,a45=None,a46=None,a47=None,a48=None,a49=None,a4A=None,a56=None,a57=None,a58=None,a59=None,a5A=None,a67=None,a68=None,a69=None,a6A=None,a78=None,a79=None,a7A=None,a89=None,a8A=None,a9A=None):
-
+    
+    vector_list = []
     perm_index_table=[0]*3628800
 
     counter_for_indices=0
@@ -9076,6 +9237,10 @@ def output_for_n10(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=
 
                 vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
                 
+                #print(vectors)
+                
+                vector_list.append(vectors)
+                
                 perms_calculated_table = permutations_for(vectors,KI)
                 perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
                 
@@ -9089,13 +9254,20 @@ def output_for_n10(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=
             percentages = [(num / total) * 100 for num in perm_index_table]
             
             permutations_list = list(permutations(['A','B','C','D','E','F','G','H','I','J']))
+            
+            matrix_vectors = np.array(vector_list)
+            max_values = np.max(matrix_vectors, axis=0)
+            min_values = np.min(matrix_vectors, axis=0)
+            avg_values = np.mean(matrix_vectors, axis=0)
 
-            for percentage, permutation in zip(percentages, permutations_list):
-                if percentage>0:
-                    print(permutation, f'{percentage:.8f}%')
+            # for percentage, permutation in zip(percentages, permutations_list):
+            #     if percentage>0:
+            #         print(permutation, f'{percentage:.8f}%')
         else:
-            print("No matrices with given indice(s)") 
-        return 0
+            print("No matrices with given indice(s)")
+            raise MatrixIndexError("No matrices with given indice(s)")
+            
+        return (percentages, permutations_list,min_values,max_values,avg_values)
     
     else:
             with open(filePath, newline='') as file:
@@ -9125,6 +9297,10 @@ def output_for_n10(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=
                         KI=Koczkodaj_index_list(row)
 
                         vectors=priority_vector(np.array(row).reshape((int(len(row) ** 0.5)), (int(len(row) ** 0.5))))
+                        
+                        #print(vectors)
+                        
+                        vector_list.append(vectors)
                    
                         perms_calculated_table = permutations_for(vectors,KI)
                         perm_index_table = [perm_index_table[i] + perms_calculated_table[i] for i in range(len(perm_index_table))]
@@ -9138,13 +9314,19 @@ def output_for_n10(filePath=None, loops=1000000, a12=None,a13=None,a14=None,a15=
                     percentages = [(num / total) * 100 for num in perm_index_table]
                                  
                     permutations_list = list(permutations(['A','B','C','D','E','F','G','H','I','J']))
+                    
+                    matrix_vectors = np.array(vector_list)
+                    max_values = np.max(matrix_vectors, axis=0)
+                    min_values = np.min(matrix_vectors, axis=0)
+                    avg_values = np.mean(matrix_vectors, axis=0)
 					
-                    for percentage, permutation in zip(percentages, permutations_list):
-                        if percentage>0:
-                            print(permutation, f'{percentage:.8f}%')
+                    # for percentage, permutation in zip(percentages, permutations_list):
+                    #     if percentage>0:
+                    #         print(permutation, f'{percentage:.8f}%')
 
                 else:
-                    print("No matrices with given indice(s)") 
-                return 0
-
+                    print("No matrices with given indice(s)")
+                    raise MatrixIndexError("No matrices with given indice(s)")
+                    
+                return (percentages, permutations_list,min_values,max_values,avg_values)
 
