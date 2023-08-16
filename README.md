@@ -57,7 +57,7 @@
 |   |  |  |  |  |  | a77 | a78 | a79 | a7A |
 |   |  |  |  |  |  |  | a88 | a89 | a8A |
 |   |  |  |  |  |  |  |  | a99 | a9A |
-|   |  |  |  |  | |  |  |  | aA |
+|   |  |  |  |  | |  |  |  | aAA |
  
 **Return:**
 - Rankings for generated matrices based on selected elements:
