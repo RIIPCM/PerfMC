@@ -13,15 +13,15 @@
 
 ## Ranking Algorithm with Step-by-Step Revealed Preferences for 3x3 and 4x4 size
 **output_for_n3()** : This function will use all possible matrices from 3x3 size
--	function will ask for matrix index (above diagonal) from the available indices
+-	function will ask for matrix element a[ i,j ] (above diagonal) from the available matrix elements
 -	in next step function will ask for value from Saaty scale
--	output will be printed rankings for all generated matrices with selected indices, weights of all objects (vectors)
+-	output will be printed rankings for all generated matrices with selected elements, weights of all objects (vectors)
 
 **output_for_n4()** : This function will use all possible matrices from 4x4 size. Note that there are 17^6 possible matrices, then it can take while to calculate rankings.
--	function will ask for matrix index (above diagonal) from the available indices
+-	function will ask for matrix index (above diagonal) from the available matrix elements
 -	in next step function will ask for value from Saaty scale
--	in each step function will ask if you want to run calculations or to go to the next index
--	output will be printed rankings for all generated matrices with selected indices, weights of all objects (vectors)
+-	in each step function will ask if you want to run calculations or to go to the next element
+-	output will be printed rankings for all generated matrices with selected elements, weights of all objects (vectors)
 
 ## Ranking Algorithm with Step-by-Step Revealed Preferences for 5x5 to 10x10 size
 **Function:**
@@ -35,7 +35,7 @@
 **Parameters:**
 - `filePath`: Path to the matrix file in csv, separatted by semicolon. If None, auto-generated matrices are used.
 - `loops`: Number of matrices to generate. Default is 1,000,000.
-- `a12, a13, ...`: Values of selected indices above the diagonal. If set to None, it auto-generates random indices from the Saaty scale.
+- `a12, a13, ...`: Values of selected elements a[ i,j ] above the diagonal. If set to None, it auto-generates random indices from the Saaty scale.
   - for 10x10, indices with 10 are written as 'A'
 
 **Example of matrice indices for 5x5**
@@ -60,7 +60,7 @@
 |   |  |  |  |  | |  |  |  | aA |
  
 **Return:**
-- Rankings for generated matrices based on selected indices:
+- Rankings for generated matrices based on selected elements:
   - `percentages` as Type list eg. `[0.0, 0.111, ...]`
 - Permutations list:
   - `permutations_list` as Type list of tuples eg. `[('A', 'B', 'C', 'D', 'E'), ('A', 'B', 'C', 'E', 'D') , ... ]`
@@ -104,7 +104,7 @@ Vector C:
 Available indices: ['A13', 'A23']
 Choose one value: 
 ```
-* Generator for 5x5 matrices with indices: loops=100, a14=1/2 , a15=2
+* Generator for 5x5 matrices with elements: loops=100, a14=1/2 , a15=2
 ```
 import PerfMC
 
@@ -156,7 +156,7 @@ Vector E:
   Avg: 0.20793118077652437
 
 ```
-Note that it's possible that there are no matrices with given indices in generated loop or in file
+Note that it's possible that there are no matrices with given elements in generated loop or in file
 ```
 PerfMC.MatrixIndexError: No matrices with given indice(s)
 ```
